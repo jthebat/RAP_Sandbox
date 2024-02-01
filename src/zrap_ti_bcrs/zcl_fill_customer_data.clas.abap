@@ -17,35 +17,9 @@ CLASS zcl_fill_customer_data IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
-*     " delete existing entries in the database table
-**     DELETE FROM zrap_atrav_ti_v2.
-*     DELETE FROM zrap_acus_ti.
-*     " insert customer info demo data
-*
-*     INSERT zrap_acus_ti FROM (
-*         SELECT
-*           FROM /dmo/customer
-*           FIELDS
-*             customer_id   AS licensenumber  ,
-*             'A'           AS license_type          ,
-*             first_name                ,
-*             last_name                 ,
-*             CASE title
-*               WHEN 'Mrs.' THEN 'M' " male
-*               WHEN 'Mr.'  THEN 'F' " female
-*             END           AS sex ,
-*             street,
-*              postal_code              ,
-*    city,
-*             country_code           ,
-*             phone_number  ,
-*             email_address
-*
-*
-*
-*    ).
 "DATA: lt_acus type table of zrap_acus_ti.
-DATA: lt_acar type table of zrap_acarinfo_ti.
+"DATA: lt_acar type table of zrap_acarinfo_ti.
+DATA: lt_bc_cars type table of zrap_bc_cars_ti.
 
 "read current timestamp
 *GET TIME STAMP FIELD DATA(zv_tsl).
@@ -970,6 +944,7 @@ DATA: lt_acar type table of zrap_acarinfo_ti.
 *EMAIL_ADDRESS = 'georg.benjamin@flight.example.de'  )
 *( licensenumber = '000458' license_type = 'A' age = '23' FIRST_NAME = 'Christoph' LAST_NAME = 'Miguel' sex = 'M' STREET = 'Auf dem Huegel 17' POSTAL_CODE = '66464' CITY = 'Homburg' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-367-577368'
 *EMAIL_ADDRESS = 'christoph.miguel@flight.example.de'  )
+*).
 "------458 MAX limit
 *( licensenumber = '000459' license_type = 'A' age = '23' FIRST_NAME = 'Amelie' LAST_NAME = 'Miguel' sex = 'F' STREET = 'Caspar-David-Friedrich-Str. 41' POSTAL_CODE = '68163' CITY = 'Mannheim-Lindenhof' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-412-103194'
 *EMAIL_ADDRESS = 'amelie.miguel@flight.example.de'  )
@@ -1447,7 +1422,7 @@ DATA: lt_acar type table of zrap_acarinfo_ti.
 *EMAIL_ADDRESS = 'hendrik.leisert@flight.example.fr'  )
 *( licensenumber = '000696' license_type = 'A' age = '23' FIRST_NAME = 'Johannes' LAST_NAME = 'Leisert' sex = 'M' STREET = 'Marktplatz 14' POSTAL_CODE = '68723' CITY = 'Schwetzingen' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-143-245846'
 *EMAIL_ADDRESS = 'johannes.leisert@flight.example.de'  )
-*( licensenumber = '000697' license_type = 'A' age = '23' FIRST_NAME = 'Amelie' LAST_NAME = 'Leisert' sex = 'F' STREET = 'Rankestr. 42' POSTAL_CODE = '68163' CITY = 'Mannheim-Lindenhof' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-287-058310'
+*( licensenumber = '000697' license_type = 'M' age = '33' FIRST_NAME = 'Amelie' LAST_NAME = 'Leisert' sex = 'F' STREET = 'Rankestr. 42' POSTAL_CODE = '68163' CITY = 'Mannheim-Lindenhof' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-287-058310'
 *EMAIL_ADDRESS = 'amelie.leisert@flight.example.de'  )
 *( licensenumber = '000698' license_type = 'A' age = '23' FIRST_NAME = 'Lothar' LAST_NAME = 'M?ller' sex = 'M' STREET = 'Arndtstrasse 57' POSTAL_CODE = '67663' CITY = 'Kaiserslautern' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-375-673974'
 *EMAIL_ADDRESS = 'lothar.m?ller@flight.example.de'  )
@@ -1487,7 +1462,7 @@ DATA: lt_acar type table of zrap_acarinfo_ti.
 *EMAIL_ADDRESS = 'anna.mustermann@flight.example.at'  )
 *( licensenumber = '000716' license_type = 'A' age = '21' FIRST_NAME = 'Peter' LAST_NAME = 'Mustermann' sex = 'M' STREET = 'Gruenlingweg 89' POSTAL_CODE = '16233' CITY = 'Potsdam' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-903-877060'
 *EMAIL_ADDRESS = 'peter.mustermann@flight.example.de'  )
-*( licensenumber = '000717' license_type = 'A' age = '44' FIRST_NAME = 'Max' LAST_NAME = 'Becker' sex = 'M' STREET = 'Ausserhalb 100' POSTAL_CODE = '15344' CITY = 'Strausberg' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-787-695819'
+*( licensenumber = '000717' license_type = 'M' age = '44' FIRST_NAME = 'Max' LAST_NAME = 'Becker' sex = 'M' STREET = 'Ausserhalb 100' POSTAL_CODE = '15344' CITY = 'Strausberg' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-787-695819'
 *EMAIL_ADDRESS = 'max.becker@flight.example.de'  )
 *( licensenumber = '000718' license_type = 'A' age = '29' FIRST_NAME = 'Guillermo' LAST_NAME = 'Becker' sex = 'M' STREET = 'Sagamore St. 68' POSTAL_CODE = '17758' CITY = 'N. Massapequa' COUNTRY_CODE = 'US' PHONE_NUMBER = '+1-862-684893'
 *EMAIL_ADDRESS = 'guillermo.becker@flight.example.us'  )
@@ -1511,48 +1486,49 @@ DATA: lt_acar type table of zrap_acarinfo_ti.
 *EMAIL_ADDRESS = 'guillermo.fischer@flight.example.us'  )
 *( licensenumber = '000728' license_type = 'A' age = '43' FIRST_NAME = 'Simon' LAST_NAME = 'Fischer' sex = 'M' STREET = 'Wilhelminentr. 1' POSTAL_CODE = '23496' CITY = 'Dielheim' COUNTRY_CODE = 'DE' PHONE_NUMBER = '+49-333-761570'
 *EMAIL_ADDRESS = 'simon.fischer@flight.example.de'  )
-
+*
 *).
 
-*key model      : abap.char(32) not null;
-*  key model_year : z_mfgyear not null;
-*  key fuel_type  : z_fueltype not null;
-*  automaker      : abap.char(10);
-*  class          : abap.char(10);
-*  @Semantics.amount.currencyCode : 'zrap_acarinfo_ti.currency_code'
-*  price          : /dmo/price;
-*  currency_code  : /dmo/currency_code;
-*  transmission   : abap.char(10);
-*  seats          : abap.numc(1);
-*  doors          : abap.numc(1);
-*  description    : /dmo/description;
+"fill internal table
+*lt_acar = VALUE #(
+*( model = 'RAY' model_year = '2021' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'RAY' model_year = '2022' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 14900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'RAY' model_year = '2023' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 15900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'MORNING' model_year = '2021' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 12200000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'MORNING' model_year = '2022' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13200000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'MORNING' model_year = '2023' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13500000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'CASPER' model_year = '2022' fuel_type = 'G' automaker = 'HYUNDAI' class = 'economy' price = 13850000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'CASPER' model_year = '2023' fuel_type = 'G' automaker = 'HYUNDAI' class = 'economy' price = 13950000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'AVANTEAD' model_year = '2021' fuel_type = 'G' automaker = 'HYUNDAI' class = 'compact' price = 25000000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*( model = 'AVANTEAD' model_year = '2022' fuel_type = 'C' automaker = 'HYUNDAI' class = 'compact' price = 26000000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
+*).
 
 "fill internal table
-lt_acar = VALUE #(
-( model = 'RAY' model_year = '2021' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'RAY' model_year = '2022' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 14900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'RAY' model_year = '2023' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 15900000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'MORNING' model_year = '2021' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 12200000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'MORNING' model_year = '2022' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13200000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'MORNING' model_year = '2023' fuel_type = 'G' automaker = 'KIA' class = 'economy' price = 13500000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'CASPER' model_year = '2022' fuel_type = 'G' automaker = 'HYUNDAI' class = 'economy' price = 13850000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'CASPER' model_year = '2023' fuel_type = 'G' automaker = 'HYUNDAI' class = 'economy' price = 13950000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'AVANTEAD' model_year = '2021' fuel_type = 'G' automaker = 'HYUNDAI' class = 'compact' price = 25000000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-( model = 'AVANTEAD' model_year = '2022' fuel_type = 'C' automaker = 'HYUNDAI' class = 'compact' price = 26000000 currency_code = 'KRW' transmission = 'Auto' seats = '5' doors = '4' description = '' )
-
+lt_bc_cars = VALUE #(
+( code = 'E0001' available = 'X' used = '' model = 'RAY' model_year = '2021' fuel_type = 'G' begin_date = '20240101' end_date = '20241231' buying_cost = 12000000 currency_code = 'KRW'
+mileage = 52431 on_promotion = '' last_maintenance_date = '20231210' last_accident_record = '' )
+( code = 'E0002' available = 'X' used = 'X' model = 'RAY' model_year = '2021' fuel_type = 'G' begin_date = '20240101' end_date = '20241231' buying_cost = 9000000 currency_code = 'KRW'
+mileage = 108874 on_promotion = '' last_maintenance_date = '20231220' last_accident_record = '20210820' )
+( code = 'E0003' available = 'X' used = '' model = 'RAY' model_year = '2021' fuel_type = 'G' begin_date = '20240101' end_date = '20241231' buying_cost = 11000000 currency_code = 'KRW'
+mileage = 65888 on_promotion = '' last_maintenance_date = '20231220' last_accident_record = '' )
+( code = 'E0004' available = 'X' used = '' model = 'RAY' model_year = '2023' fuel_type = 'G' begin_date = '20240101' end_date = '20241231' buying_cost = 13000000 currency_code = 'KRW'
+mileage = 18201 on_promotion = '' last_maintenance_date = '' last_accident_record = '' )
 ).
 
-"Delete possible entries; insert new entries
+"Delete possible entries
 *DELETE FROM zrap_acus_ti.
-DELETE FROM zrap_acarinfo_ti.
+*DELETE FROM zrap_acarinfo_ti.
+DELETE FROM zrap_bc_cars_ti.
 
+"Insert new entries
 *INSERT zrap_acus_ti from table @lt_acus.
-INSERT zrap_acarinfo_ti from table @lt_acar.
-*    COMMIT WORK.
+*INSERT zrap_acarinfo_ti from table @lt_acar.
+INSERT zrap_bc_cars_ti from table @lt_bc_cars.
+*COMMIT WORK.
 
     "Check result in console
     out->write( sy-dbcnt ).
-    out->write( 'customer info demo data inserted.' ).
+    out->write( 'demo data inserted.' ).
 "debuggging test
 DATA lv_data1 TYPE string.
 lv_data1 = sy-dbcnt.
